@@ -1,0 +1,221 @@
+---
+
+---
+
+<details>
+	<summary>
+		<span>options</span>
+	</summary>
+	<div class="menu">
+		<label for="patron-toggle" class="switch" style="user-select: none">
+			Patron mode
+			<input type="checkbox" name="patron-toggle" id="patron-toggle" />
+			<span class="slider"></span>
+		</label>
+		<br />
+		<label for="clipbasket-toggle" class="switch" style="user-select: none">
+			Clip basket
+			<input type="checkbox" name="clipbasket" id="clipbasket-toggle" />
+			<span class="slider"></span>
+		</label>
+
+		<!-- <hr class="placeholder" /> -->
+		<!-- <span class="placeholder">place fucking holder</span> -->
+	</div>
+</details>
+
+<script>
+	// Get assets
+	const hash = window.location.hash;
+	console.log("Hash:", hash);
+	const prices = Array.from(
+		document.getElementsByClassName("patron-mode"),
+	) as HTMLElement[];
+
+	const patron_toggle = document.getElementById(
+		"patron-toggle",
+	) as HTMLInputElement;
+
+	// If on, turn everything related to on, other wise default is off
+	if (localStorage.getItem("patron-mode") == "on" || hash == "#commission") {
+		patronModeOn();
+		patron_toggle.checked = true;
+	}
+
+	// Track toggle and run function based on change result
+	console.log("patron-mode is:", localStorage.getItem("patron-mode"));
+	patron_toggle?.addEventListener("change", () => {
+		if (patron_toggle.checked) patronModeOn();
+		else patronModeOff();
+	});
+
+	// Functions:
+	function patronModeOff() {
+		prices.forEach((card) => {
+			console.log(
+				"patron-mode changed to:",
+				localStorage.getItem("patron-mode"),
+			);
+			localStorage.setItem("patron-mode", "off");
+			card.style.opacity = "0";
+			// card.style.bottom = "-20%";
+		});
+	}
+
+	function patronModeOn() {
+		prices.forEach((card) => {
+			console.log(
+				"patron-mode changed to:",
+				localStorage.getItem("patron-mode"),
+			);
+			localStorage.setItem("patron-mode", "on");
+			card.style.opacity = "100";
+			// card.style.bottom = "0";
+		});
+	}
+</script>
+
+<script>
+	// Get assets
+	const clipbasket = Array.from(
+		document.getElementsByClassName("clipbasket"),
+	) as HTMLElement[];
+
+	const clipbasket_toggle = document.getElementById(
+		"clipbasket-toggle",
+	) as HTMLInputElement;
+	declare const clipbasket_board: HTMLElement;
+
+	// Track toggle and run function based on change result
+	clipbasket_toggle?.addEventListener("change", () => {
+		if (clipbasket_toggle.checked) clipModeOn();
+		else clipModeOff();
+	});
+
+	// Functions:
+	function clipModeOff() {
+		clipbasket_board.style.top = "";
+		clipbasket.forEach((clip) => {
+			clip.style.display = "none";
+		});
+	}
+
+	function clipModeOn() {
+		clipbasket_board.style.top = "75%";
+		clipbasket.forEach((clip) => {
+			clip.style.display = "";
+		});
+	}
+</script>
+
+<style>
+	.card-price {
+		position: absolute;
+		display: none;
+		height: 10em;
+		width: 10em;
+		outline: 1px solid red;
+	}
+	summary {
+		user-select: none;
+		list-style: "  |  ";
+		margin-inline-start: 10px;
+		font-weight: normal;
+	}
+
+	details[open] summary span {
+		font-weight: bold;
+	}
+
+	/* turns out clicking beffor of a detail... collaps it? */
+	details[open] summary::before {
+		content: "";
+		width: 100vw;
+		height: 100vh;
+		position: fixed;
+		top: 0;
+		left: 0;
+		cursor: auto;
+		background-color: rgb(6 11 24 / 55%);
+	}
+	.menu {
+		box-shadow: 6px 2px 10px #0000009e;
+		border-radius: 10px;
+		background-color: #060608;
+		right: -15px;
+		top: 45px;
+		position: absolute;
+		width: auto;
+		padding: 1em;
+		/* height: 7em; */
+		/* display: grid; */
+	}
+
+	/* The switch - the box around the slider */
+	.switch {
+		position: relative;
+		display: inline-flex;
+		width: auto;
+		height: 20px;
+
+		align-items: center;
+		/* margin: 0.5em; */
+	}
+
+	/* Hide default HTML checkbox */
+	.switch input {
+		display: none;
+	}
+
+	/* The slider */
+	.slider {
+		cursor: pointer;
+		background-color: #ccc;
+		transition: 0.4s;
+		border-radius: 34px;
+		width: 50px;
+		height: 20px;
+		margin-inline-start: 20px;
+		/* margin-block: 10px; */
+	}
+
+	/* The slider's circle  */
+	.slider:before {
+		position: absolute;
+		content: "";
+		height: 1em;
+		width: 1em;
+		right: 31px;
+		background-color: white;
+		transition: 0.2s;
+		border-radius: 50%;
+		align-self: anchor-center;
+	}
+
+	input:checked + .slider {
+		background-image: linear-gradient(90deg, rgb(34 206 139), rgb(40 110 206));
+		/* background-image: linear-gradient(90deg, rgb(43 103 142), rgb(108 103 135)); */
+		/* background-color: #2196f3; */
+	}
+	input:checked + .slider:before {
+		-webkit-transform: translateX(26px);
+		-ms-transform: translateX(26px);
+		transform: translateX(28px);
+	}
+
+	input:focus + .slider {
+		box-shadow: 0 0 1px #2196f3;
+	}
+	input:checked + .card-price {
+		display: none;
+	}
+	.placeholder {
+		color: gray;
+		border-color: gray;
+	}
+</style>
+<style is:global>
+	.patron-mode {
+		transition: all 0.2s;
+	}
+</style>

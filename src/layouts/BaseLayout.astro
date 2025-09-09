@@ -1,0 +1,44 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+const { pageTitle } = Astro.props;
+---
+
+<!-- assuming this is the base layout with the least need of slots -->
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{pageTitle}</title>
+	</head>
+
+	<body>
+		<div class="background"></div>
+		<Header>
+			<slot name="socials" slot="socials"> slot place holder for links </slot>
+		</Header>
+		<div class="base-layout-div">
+			<slot> BaseLayout (a default text) </slot>
+		</div>
+	</body>
+
+	<style>
+		.background {
+			z-index: -100;
+			height: 100%;
+			/* inset: 0; */
+			position: fixed;
+			background-image: linear-gradient(
+				136deg,
+				rgb(17 18 24) 0%,
+				rgb(1 0 3) 57%
+			);
+		}
+		div {
+			width: 100%;
+			height: auto;
+		}
+	</style>
+</html>

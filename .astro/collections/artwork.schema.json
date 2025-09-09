@@ -1,0 +1,113 @@
+{
+  "$ref": "#/definitions/artwork",
+  "definitions": {
+    "artwork": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "artwork title",
+          "markdownDescription": "artwork title"
+        },
+        "image": {
+          "type": "string",
+          "description": "path to image",
+          "markdownDescription": "path to image"
+        },
+        "imageAlt": {
+          "type": "string",
+          "description": "an image alt text",
+          "markdownDescription": "an image alt text"
+        },
+        "imageWip": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "paths to artwork wips",
+          "markdownDescription": "paths to artwork wips"
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "references inspered from",
+          "markdownDescription": "references inspered from"
+        },
+        "themes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "styles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "unlisted": {
+          "type": "boolean",
+          "description": "unlisted/hidden artwork",
+          "markdownDescription": "unlisted/hidden artwork"
+        },
+        "commission": {
+          "type": "boolean",
+          "description": "true if its a commissioned artwork",
+          "markdownDescription": "true if its a commissioned artwork"
+        },
+        "rating": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10,
+          "description": "how much is the rating given for the artwork by the public",
+          "markdownDescription": "how much is the rating given for the artwork by the public"
+        },
+        "show_priority": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10,
+          "description": "The priority of an image showing the first, 0 lowest, 10 highest",
+          "markdownDescription": "The priority of an image showing the first, 0 lowest, 10 highest"
+        },
+        "tools": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "krita",
+              "ibispaint",
+              "photoshop",
+              "gimp",
+              "blender"
+            ]
+          },
+          "description": "tools list used to create the artwork",
+          "markdownDescription": "tools list used to create the artwork"
+        },
+        "price": {
+          "type": "string",
+          "description": "A price range of two value numbers",
+          "markdownDescription": "A price range of two value numbers"
+        },
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "image",
+        "imageAlt",
+        "themes",
+        "styles",
+        "unlisted",
+        "commission",
+        "show_priority",
+        "tools"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}
