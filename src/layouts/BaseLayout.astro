@@ -1,7 +1,9 @@
 ---
 import "../styles/global.css";
-import Header from "../components/Header.astro";
+import Header from "./Header.astro";
 const { pageTitle } = Astro.props;
+
+import Options from "./Options.astro";
 ---
 
 <!-- assuming this is the base layout with the least need of slots -->
@@ -17,28 +19,30 @@ const { pageTitle } = Astro.props;
 	<body>
 		<div class="background"></div>
 		<Header>
-			<slot name="socials" slot="socials"> slot place holder for links </slot>
+			<div slot="socials" style="height: 75%;display: inline-flex; align-items: center;">
+				<Options/>
+			</div>
 		</Header>
 		<div class="base-layout-div">
 			<slot> BaseLayout (a default text) </slot>
 		</div>
 	</body>
 
-	<style>
-		.background {
-			z-index: -100;
-			height: 100%;
-			/* inset: 0; */
-			position: fixed;
-			background-image: linear-gradient(
-				136deg,
-				rgb(17 18 24) 0%,
-				rgb(1 0 3) 57%
-			);
-		}
-		div {
-			width: 100%;
-			height: auto;
-		}
-	</style>
-</html>
+<style>
+	.background {
+		z-index: -100;
+		height: 100%;
+		/* inset: 0; */
+		position: fixed;
+		background-image: linear-gradient(
+			136deg,
+			rgb(17 18 24) 0%,
+			rgb(1 0 3) 57%
+				);
+	}
+	div {
+		width: 100%;
+		height: auto;
+	}
+</style>
+	</html>

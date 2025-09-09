@@ -1,12 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Header from "../components/sections/child_components/Header.astro";
+
 // === Imports ===
 ---
 
 <BaseLayout pageTitle="Portfolio">
 
-	<Header slot="socials" />
+
 	<!-- This probably was reinventing Astro's wheel, shall reconsider. -->
 	<!-- Cant use .prop on client side js right? -->
 	<div id="clipbasket_board">
@@ -15,102 +15,6 @@ import Header from "../components/sections/child_components/Header.astro";
 		<span id="clipbasket_copy" style="cursor: pointer; font-size: clamp(10px,2vh,2rem); float: inline-end; margin-inline: 1em">copy</span>
 	</div>
 </BaseLayout>
-
-
-<script>
-	import justifiedLayout from "justified-layout";
-	interface ImageFiltered {
-
-		alt:  string,
-		filters: {
-			commission: boolean;
-			styles: string[];
-			theme: string[];
-			price: string | undefined;
-			show_priority: number;
-		}
-		width: number;
-		height: number;
-	}
-interface PageResolution {
-  width: number;
-  height: number;
-}
-
-	class ImagesGallery extends HTMLElement {
-		private resizeobserver!: ResizeObserver;
-		private lastsize!: PageResolution;
-		private images: ImageFiltered[] = JSON.parse(this.dataset.images!); // the type is Absolue misleading.
-
-		constructor() {
-			super();
-			this.sort();
-			this.resizeobserver = new ResizeObserver( 
-				this.debounce((data:ResizeObserverEntry[])=>{
-					this.lastsize = { // a slight(?) preformance sacrefice for simplicity, this is outta the debounce
-						width : data![0].contentRect.width,
-						height : data![0].contentRect.height,
-					}
-					this.deployLayout();
-					// this.debouncedDeployLayout();
-				}, 250) // run the returned function after debounce
-			); //this is scary
-			this.resizeobserver.observe(this);
-		}
-
-
-		private deployLayout() {
-			const page_res = this.lastsize;
-			const ratios = this.images.map((image) => {
-				const { width, height } = image;
-				return width / height;
-			});
-
-			const box = justifiedLayout(ratios, {
-				containerWidth: page_res.width,
-				boxSpacing: 20,
-				targetRowHeight: 300,
-				targetRowHeightTolerance: 0.5,
-				// fullWidthBreakoutRowCadence: 3,
-			});
-			this.images.map((image, index) => {
-				const card = document.getElementById(image.alt) as HTMLElement; //Hack
-				const height = box.boxes[index].height.toString() + "px";
-				const width = box.boxes[index].width.toString() + "px";
-				const top = box.boxes[index].top.toString() + "px";
-				const left = box.boxes[index].left.toString() + "px";
-
-				// console.log("setting image ", index, " to: ", height, " x ", width);
-				card.style.height = height;
-				card.style.width = width;
-				card.style.top = top;
-				card.style.left = left;
-				// hide cards until fully loaded
-				card.style.display = "block";
-			});
-		}
-
-		//this thing is Absolute cinema
-		private debounce(f: Function, delay: number) {
-			let timer: ReturnType<typeof setTimeout>;
-			return function (...args: any[]) {
-				clearTimeout(timer);
-				timer = setTimeout(() => f(...args), delay);
-			};
-		}
-		public sort(){
-			this.images.sort((a,b) => b.filters.show_priority - a.filters.show_priority)
-			// this.deployLayout();
-		}
-
-		// Experimenting
-		public sortrev(){
-			this.images.sort((a,b) => a.filters.show_priority - b.filters.show_priority)
-			// this.deployLayout();
-		}
-	}
-	customElements.define("images-gallery", ImagesGallery); //does it Have to be that name? cant i use BaseLayout?
-</script>
 
 <style>
 	#clipbasket_board {
@@ -146,4 +50,4 @@ interface PageResolution {
 		/* shit is broken with everything on  position absolute */
 		display: none;
 	}
-</style
+</style>

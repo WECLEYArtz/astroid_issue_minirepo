@@ -7,12 +7,6 @@
 		<span>options</span>
 	</summary>
 	<div class="menu">
-		<label for="patron-toggle" class="switch" style="user-select: none">
-			Patron mode
-			<input type="checkbox" name="patron-toggle" id="patron-toggle" />
-			<span class="slider"></span>
-		</label>
-		<br />
 		<label for="clipbasket-toggle" class="switch" style="user-select: none">
 			Clip basket
 			<input type="checkbox" name="clipbasket" id="clipbasket-toggle" />
@@ -23,57 +17,6 @@
 		<!-- <span class="placeholder">place fucking holder</span> -->
 	</div>
 </details>
-
-<script>
-	// Get assets
-	const hash = window.location.hash;
-	console.log("Hash:", hash);
-	const prices = Array.from(
-		document.getElementsByClassName("patron-mode"),
-	) as HTMLElement[];
-
-	const patron_toggle = document.getElementById(
-		"patron-toggle",
-	) as HTMLInputElement;
-
-	// If on, turn everything related to on, other wise default is off
-	if (localStorage.getItem("patron-mode") == "on" || hash == "#commission") {
-		patronModeOn();
-		patron_toggle.checked = true;
-	}
-
-	// Track toggle and run function based on change result
-	console.log("patron-mode is:", localStorage.getItem("patron-mode"));
-	patron_toggle?.addEventListener("change", () => {
-		if (patron_toggle.checked) patronModeOn();
-		else patronModeOff();
-	});
-
-	// Functions:
-	function patronModeOff() {
-		prices.forEach((card) => {
-			console.log(
-				"patron-mode changed to:",
-				localStorage.getItem("patron-mode"),
-			);
-			localStorage.setItem("patron-mode", "off");
-			card.style.opacity = "0";
-			// card.style.bottom = "-20%";
-		});
-	}
-
-	function patronModeOn() {
-		prices.forEach((card) => {
-			console.log(
-				"patron-mode changed to:",
-				localStorage.getItem("patron-mode"),
-			);
-			localStorage.setItem("patron-mode", "on");
-			card.style.opacity = "100";
-			// card.style.bottom = "0";
-		});
-	}
-</script>
 
 <script>
 	// Get assets
@@ -109,13 +52,6 @@
 </script>
 
 <style>
-	.card-price {
-		position: absolute;
-		display: none;
-		height: 10em;
-		width: 10em;
-		outline: 1px solid red;
-	}
 	summary {
 		user-select: none;
 		list-style: "  |  ";
@@ -197,6 +133,7 @@
 		/* background-image: linear-gradient(90deg, rgb(43 103 142), rgb(108 103 135)); */
 		/* background-color: #2196f3; */
 	}
+
 	input:checked + .slider:before {
 		-webkit-transform: translateX(26px);
 		-ms-transform: translateX(26px);
@@ -212,10 +149,5 @@
 	.placeholder {
 		color: gray;
 		border-color: gray;
-	}
-</style>
-<style is:global>
-	.patron-mode {
-		transition: all 0.2s;
 	}
 </style>
